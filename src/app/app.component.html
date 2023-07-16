@@ -1,0 +1,32 @@
+<div class="row">
+  <p class="" style="margin-left:20px; margin-top:20px;">
+    Upload file here
+  </p>
+  <input type="file" name="Excel file" id="" [multiple]="false" (change)="onFileChange($event)"
+    accept=".csv,.xlsx,application/vnd.ms-excel" style="margin-left: 20px;" />
+</div>
+<div class="row text-center justify-content-ceter mt-2 mr-5 ml-5">
+  <div *ngIf="isFileUploading"><mat-spinner></mat-spinner></div>
+</div>
+<div class="row text-center justify-content-center m-1" *ngIf="excelData.length">
+  <div class="btn btn-primary m-2" (click)="checkForDuplication()" style="width: 200px">check for duplication</div>
+</div>
+<div class="row justify-content-center">
+  <div class="row justify-content-center text-center" style="margin-top: 50px; width: 95%;">
+    <table class="table table-stripped table-responsive" style="width: 96%;" *ngIf="excelData.length > 0">
+      <thead>
+        <th *ngFor="let title of excelHeader">{{ title }}</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="
+                  let row of excelData | paginate: { itemsPerPage: 10, currentPage: p };index as i
+                ">
+          <td *ngFor="let titles of row;index as j">{{titles }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2" *ngIf="excelData.length > 0">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
